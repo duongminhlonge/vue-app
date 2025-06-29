@@ -2,21 +2,30 @@
 FROM node:20 AS build-stage
 
 WORKDIR /app
-COPY package*.json ./
+
+# Copy only package files to install dependencies first
+COPY app/package*.json ./
 RUN npm install
 
-COPY . .
+# Copy the rest of the Vue source code
+COPY app/ .
+
+# Build the application
 RUN npm run build
 
 
 # ---------- Production Stage ----------
 FROM nginx:alpine AS production-stage
 
-# Copy cấu hình nginx vào container
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+# Optional: Copy full app source (for debugging)
+WORKDIR /app
+COPY --from=build-stage /app /app
 
-# Copy file build vào thư mục Nginx
+# Copy built files into nginx public folder
 COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+# Copy nginx config
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
