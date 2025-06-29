@@ -6,3 +6,9 @@ services:
     ports:
       - "8081:80"
     container_name: vue-nginx
+    networks:
+      - laravel-app_laravel-vue-app-network
+
+networks:
+  laravel-app_laravel-vue-app-network:
+    external: true
