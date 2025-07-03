@@ -2,10 +2,16 @@ version: '3'
 
 services:
   vue-app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vue-dev
+    volumes:
+      - ./app:/app          # Mount your source code
+      - /app/node_modules   # Persist container's node_modules
     ports:
-      - "8081:80"
-    container_name: vue-nginx
+      - "5173:5173"         # Vite dev server port
+    command: npm run dev -- --host
     networks:
       - laravel-app_laravel-vue-app-network
 
