@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+    import DailyWords from '../components/DailyWords.vue'
 </script>
-
+<!-- src/views/HomeView.vue -->
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+    <main>
+        <DailyWords/>
+    </main>
 </template>
