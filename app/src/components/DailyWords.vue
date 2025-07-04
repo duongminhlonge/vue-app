@@ -1,6 +1,6 @@
 <template>
   <div class="daily-words">
-    <h1>📚 Learn 10 English Words Today</h1>
+    <h1>📚 Learn 5 English Words Today</h1>
 
     <div class="word-grid">
       <div
@@ -35,90 +35,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-const words = ref([
-  {
-    word: 'cat',
-    type: 'noun',
-    pronunciationUS: 'kæt',
-    pronunciationUK: 'kæt',
-    definition: 'A small domesticated carnivorous mammal.',
-    example: 'The cat slept on the windowsill.'
-  },
-  {
-    word: 'eat',
-    type: 'verb',
-    pronunciationUS: 'iːt',
-    pronunciationUK: 'iːt',
-    definition: 'To consume food.',
-    example: 'I always eat breakfast before work.'
-  },
-  {
-    word: 'beautiful',
-    type: 'adjective',
-    pronunciationUS: 'ˈbjuː.tɪ.fəl',
-    pronunciationUK: 'ˈbjuː.tɪ.fəl',
-    definition: 'Pleasing the senses or mind aesthetically.',
-    example: 'She wore a beautiful dress to the party.'
-  },
-  {
-    word: 'quickly',
-    type: 'adverb',
-    pronunciationUS: 'ˈkwɪk.li',
-    pronunciationUK: 'ˈkwɪk.li',
-    definition: 'At a fast speed; rapidly.',
-    example: 'He ran quickly to catch the bus.'
-  },
-  {
-    word: 'under',
-    type: 'preposition',
-    pronunciationUS: 'ˈʌn.dɚ',
-    pronunciationUK: 'ˈʌn.də',
-    definition: 'Directly below something.',
-    example: 'The dog is hiding under the table.'
-  },
-  {
-    word: 'but',
-    type: 'conjunction',
-    pronunciationUS: 'bʌt',
-    pronunciationUK: 'bʌt',
-    definition: 'Used to introduce a contrast.',
-    example: 'She is kind, but sometimes impatient.'
-  },
-  {
-    word: 'wow',
-    type: 'interjection',
-    pronunciationUS: 'waʊ',
-    pronunciationUK: 'waʊ',
-    definition: 'Used to express amazement.',
-    example: 'Wow! That was an amazing performance!'
-  },
-  {
-    word: 'this',
-    type: 'determiner',
-    pronunciationUS: 'ðɪs',
-    pronunciationUK: 'ðɪs',
-    definition: 'Used to identify a specific person or thing.',
-    example: 'This apple is fresh and sweet.'
-  },
-  {
-    word: 'an',
-    type: 'article',
-    pronunciationUS: 'æn',
-    pronunciationUK: 'æn',
-    definition: 'Used before words beginning with a vowel sound.',
-    example: 'I saw an elephant at the zoo.'
-  },
-  {
-    word: 'please',
-    type: 'other',
-    pronunciationUS: 'pliːz',
-    pronunciationUK: 'pliːz',
-    definition: 'Used to make a polite request.',
-    example: 'Please close the door behind you.'
+const words = ref([])
+
+onMounted(async () => {
+  try {
+    const res = await fetch('http://laravel_app.local/api/words/get-daily-words') // Replace with your actual API endpoint
+    const json = await res.json()
+
+    if (json.success) {
+      words.value = json.data.map(w => ({
+        word: w.word,
+        type: w.type,
+        pronunciationUS: w.phon_n_am,
+        pronunciationUK: w.phon_br,
+        definition: w.meaning,
+        example: w.example
+      }))
+    }
+  } catch (error) {
+    console.error('Error fetching daily words:', error)
   }
-])
+})
 
 function playAudio(text, lang) {
   const utterance = new SpeechSynthesisUtterance(text)
@@ -133,18 +72,6 @@ function searchGoogle(word) {
 
 function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1)
-}
-
-function gridStyle(index) {
-  if (index > 4) return {}
-  const styles = [
-    { gridColumn: '1', gridRow: '1' },
-    { gridColumn: '2', gridRow: '1' },
-    { gridColumn: '3', gridRow: '1' },
-    { gridColumn: '1 / span 2', gridRow: '2' },
-    { gridColumn: '3', gridRow: '2' }
-  ]
-  return styles[index] || {}
 }
 </script>
 
@@ -246,7 +173,6 @@ h1 {
   transition: filter 0.2s ease;
 }
 
-/* Word type-specific styles */
 .word-card.noun { background-color: rgba(0, 123, 255, 0.08); }
 .word-card.verb { background-color: rgba(40, 167, 69, 0.08); }
 .word-card.adjective { background-color: rgba(255, 193, 7, 0.12); }
