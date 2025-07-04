@@ -174,12 +174,12 @@ h1 {
 }
 
 .word-card.noun { background-color: rgba(0, 123, 255, 0.08); }
-.word-card.verb { background-color: rgba(40, 167, 69, 0.08); }
+.word-card.verb { background-color: rgba(220, 53, 69, 0.1); }
 .word-card.adjective { background-color: rgba(255, 193, 7, 0.12); }
 .word-card.adverb { background-color: rgba(23, 162, 184, 0.1); }
 .word-card.preposition { background-color: rgba(111, 66, 193, 0.1); }
 .word-card.conjunction { background-color: rgba(253, 126, 20, 0.1); }
-.word-card.interjection { background-color: rgba(220, 53, 69, 0.1); }
+.word-card.interjection { background-color: rgba(40, 167, 69, 0.08); }
 .word-card.determiner { background-color: rgba(32, 201, 151, 0.1); }
 .word-card.article { background-color: rgba(102, 16, 242, 0.1); }
 .word-card.other { background-color: rgba(52, 58, 64, 0.08); }
@@ -187,7 +187,7 @@ h1 {
 .word-card.noun .type-tag,
 .word-card.noun button { background-color: #007bff; }
 .word-card.verb .type-tag,
-.word-card.verb button { background-color: #28a745; }
+.word-card.verb button { background-color: #dc3545; }
 .word-card.adjective .type-tag,
 .word-card.adjective button { background-color: #ffc107; color: #222; }
 .word-card.adverb .type-tag,
@@ -197,7 +197,7 @@ h1 {
 .word-card.conjunction .type-tag,
 .word-card.conjunction button { background-color: #fd7e14; color: #222; }
 .word-card.interjection .type-tag,
-.word-card.interjection button { background-color: #dc3545; }
+.word-card.interjection button { background-color: #28a745; }
 .word-card.determiner .type-tag,
 .word-card.determiner button { background-color: #20c997; }
 .word-card.article .type-tag,
