@@ -5,21 +5,21 @@
             <h2 class="modal-title">Register</h2>
             <form @submit.prevent="submitForm">
                 <label>First Name:
-                    <input type="text" v-model="form.firstname"/>
-                    <span class="error-text" v-if="errors.firstname">{{ errors.firstname }}</span>
+                    <input type="text" v-model="form.first_name"/>
+                    <span class="error-text" v-if="errors.first_name">{{ errors.first_name }}</span>
                 </label>
 
                 <label>Last Name:
-                    <input type="text" v-model="form.lastname"/>
-                    <span class="error-text" v-if="errors.lastname">{{ errors.lastname }}</span>
+                    <input type="text" v-model="form.last_name"/>
+                    <span class="error-text" v-if="errors.last_name">{{ errors.last_name }}</span>
                 </label>
 
                 <label>Gender:
                     <select v-model="form.gender">
                         <option disabled value="">Select</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
+                        <option>male</option>
+                        <option>female</option>
+                        <option>other</option>
                     </select>
                     <span class="error-text" v-if="errors.gender">{{ errors.gender }}</span>
                 </label>
@@ -35,9 +35,11 @@
                 </label>
 
                 <label>Confirm Password:
-                    <input type="password" v-model="form.confirmPassword"/>
-                    <span class="error-text" v-if="errors.confirmPassword">{{ errors.confirmPassword }}</span>
+                    <input type="password" v-model="form.confirm_password"/>
+                    <span class="error-text" v-if="errors.confirm_password">{{ errors.confirm_password }}</span>
                 </label>
+
+                <span class="error-text" v-if="errors.api">{{ errors.api }}</span>
 
                 <div class="modal-actions">
                     <button type="submit" class="submit-button">Submit</button>
@@ -47,38 +49,33 @@
     </div>
 </template>
 
-
 <script setup>
-    import {defineProps, defineEmits, reactive, ref} from 'vue'
+    import { defineProps, defineEmits, reactive, ref } from 'vue'
     import '@/assets/css/RegisterModal.css'
 
     const props = defineProps({
         visible: Boolean
     })
-    const emit = defineEmits(['close'])
+    const emit = defineEmits(['close', 'register'])
 
     const form = reactive({
+        first_name: '',
+        last_name: '',
+        gender: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        firstname: '',
-        lastname: '',
-        gender: ''
+        confirm_password: ''
     })
 
     const errors = reactive({
+        first_name: '',
+        last_name: '',
+        gender: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        firstname: '',
-        lastname: '',
-        gender: ''
+        confirm_password: '',
+        api: ''
     })
-
-    function close() {
-        clearForm()
-        emit('close')
-    }
 
     function clearErrors() {
         for (const key in errors) {
@@ -88,28 +85,33 @@
 
     function clearForm() {
         Object.assign(form, {
+            first_name: '',
+            last_name: '',
+            gender: '',
             email: '',
             password: '',
-            confirmPassword: '',
-            firstname: '',
-            lastname: '',
-            gender: ''
+            confirm_password: ''
         })
         clearErrors()
     }
 
-    function submitForm() {
+    function close() {
+        clearForm()
+        emit('close')
+    }
+
+    async function submitForm() {
         clearErrors()
 
         let valid = true
 
-        if (!form.firstname) {
-            errors.firstname = 'First name is required.'
+        if (!form.first_name) {
+            errors.first_name = 'First name is required.'
             valid = false
         }
 
-        if (!form.lastname) {
-            errors.lastname = 'Last name is required.'
+        if (!form.last_name) {
+            errors.last_name = 'Last name is required.'
             valid = false
         }
 
@@ -131,19 +133,66 @@
             valid = false
         }
 
-        if (!form.confirmPassword) {
-            errors.confirmPassword = 'Please confirm your password.'
+        if (!form.confirm_password) {
+            errors.confirm_password = 'Please confirm your password.'
             valid = false
-        } else if (form.password !== form.confirmPassword) {
-            errors.confirmPassword = 'Passwords do not match.'
+        } else if (form.password !== form.confirm_password) {
+            errors.confirm_password = 'Passwords do not match.'
             valid = false
         }
 
         if (!valid) return
 
-        console.log('Form submitted:', form)
+        try {
+            const response = await fetch('http://laravel_app.local/api/customer/register', {
+                method: 'POST',
+                headers: {
+                    // Use multipart/form-data because original curl uses form-data
+                    // For multipart/form-data in fetch, you must use FormData instead of JSON.stringify
+                },
+                body: (() => {
+                    const formData = new FormData()
+                    formData.append('first_name', form.first_name)
+                    formData.append('last_name', form.last_name)
+                    formData.append('gender', form.gender.toLowerCase())
+                    formData.append('email', form.email)
+                    formData.append('password', form.password)
+                    return formData
+                })()
+            })
 
-        clearForm()
-        emit('close')
+            const data = await response.json()
+
+            if (response.status === 422) {
+                // Laravel validation errors
+                if (data.errors) {
+                    errors.first_name = data.errors.first_name?.[0] || ''
+                    errors.last_name = data.errors.last_name?.[0] || ''
+                    errors.gender = data.errors.gender?.[0] || ''
+                    errors.email = data.errors.email?.[0] || ''
+                    errors.password = data.errors.password?.[0] || ''
+                } else {
+                    errors.api = data.message || 'Validation failed.'
+                }
+                return
+            }
+
+            if (!response.ok) {
+                errors.api = data.message || 'Registration failed.'
+                return
+            }
+
+            // Success: emit register event with token and customer
+            emit('register', {
+                email: form.email,
+                token: data.token,
+                customer: data.customer
+            })
+            close()
+
+        } catch (err) {
+            console.error(err)
+            errors.api = 'Something went wrong. Please try again later.'
+        }
     }
 </script>
