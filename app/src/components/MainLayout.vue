@@ -1,20 +1,20 @@
 <template>
     <div>
         <nav class="main-nav">
-            <router-link to="/" exact>🏠Home</router-link>
+            <div class="nav-left">
+                <router-link to="/" exact>🏠Home</router-link>
+                <a href="#" @click.prevent="showAboutModal = true">About</a>
+            </div>
 
-            <!-- Show Register & Login only if NOT logged in -->
-            <template v-if="!isLoggedIn">
-                <a href="#" @click.prevent="showRegisterModal = true">Register</a>
-                <a href="#" @click.prevent="showLoginModal = true">Login</a>
-            </template>
-
-            <!-- Show Logout only if logged in -->
-            <template v-else>
-                <a href="#" @click.prevent="logout">Logout</a>
-            </template>
-
-            <a href="#" @click.prevent="showAboutModal = true">About</a>
+            <div class="nav-right">
+                <template v-if="!isLoggedIn">
+                    <a href="#" @click.prevent="showRegisterModal = true">Register</a>
+                    <a href="#" @click.prevent="showLoginModal = true">Login</a>
+                </template>
+                <template v-else>
+                    <a href="#" @click.prevent="logout">Logout</a>
+                </template>
+            </div>
         </nav>
 
         <main class="main-content">

@@ -3,11 +3,19 @@
     background-color: #fff; /* white background */
     padding: 1rem 2rem;
     display: flex;
-    gap: 20px;
+    justify-content: space-between; /* split left and right groups */
+    align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* subtle shadow */
     position: sticky;
     top: 0;
     z-index: 10;
+    gap: 20px; /* gap between groups */
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    gap: 20px; /* space between links in each group */
 }
 
 .main-nav a {
@@ -15,6 +23,7 @@
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
+    cursor: pointer;
 }
 
 .main-nav a:hover {
