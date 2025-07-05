@@ -18,10 +18,10 @@
 }
 
 .main-nav a:hover {
-    color: #007bff;
+    color: #dc3545;
 }
 
 .main-nav a.router-link-exact-active {
     font-weight: bold;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #dc3545;
 }

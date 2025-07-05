@@ -1,5 +1,5 @@
 <template>
-    <div v-if="visible" class="modal-overlay" @click.self="close">
+    <div v-if="visible" class="register-modal modal-overlay" @click.self="close">
         <div class="modal">
             <button class="modal-close" @click="close">×</button>
             <h2 class="modal-title">Register</h2>

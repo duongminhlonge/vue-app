@@ -1,11 +1,4 @@
-.register-modal .error-text {
-    color: #d93025;
-    font-size: 0.85rem;
-    margin-top: 4px;
-    display: block;
-}
-
-.register-modal.modal-overlay {
+.login-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,7 +11,7 @@
     z-index: 1000;
 }
 
-.register-modal .modal {
+.login-modal .modal {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
@@ -28,14 +21,14 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-.register-modal .modal-title {
+.login-modal .modal-title {
     margin: 0 0 1rem 0;
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
 }
 
-.register-modal .modal-close {
+.login-modal .modal-close {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -47,19 +40,18 @@
     transition: color 0.2s ease;
 }
 
-.register-modal .modal-close:hover {
+.login-modal .modal-close:hover {
     color: #333;
 }
 
-.register-modal label {
+.login-modal label {
     display: block;
     margin-bottom: 0.75rem;
     font-weight: 500;
     color: #333;
 }
 
-.register-modal input,
-.register-modal select {
+.login-modal input {
     width: 100%;
     margin-top: 0.25rem;
     padding: 0.5rem;
@@ -68,13 +60,20 @@
     font-size: 0.95rem;
 }
 
-.register-modal .modal-actions {
+.login-modal .error-text {
+    color: #d93025;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.login-modal .modal-actions {
     margin-top: 1.5rem;
     display: flex;
     justify-content: flex-end;
 }
 
-.register-modal .submit-button {
+.login-modal .submit-button {
     background-color: #dc3545;
     color: white;
     padding: 0.6rem 1.2rem;
@@ -85,6 +84,6 @@
     transition: background-color 0.2s ease;
 }
 
-.register-modal .submit-button:hover {
+.login-modal .submit-button:hover {
     background-color: #c82333;
 }
