@@ -13,7 +13,7 @@
                     <input type="password" v-model="form.password" />
                     <span class="error-text" v-if="errors.password">{{ errors.password }}</span>
                 </label>
-
+                <span class="error-text" v-if="errors.api">{{ errors.api }}</span>
                 <div class="modal-actions">
                     <button type="submit" class="submit-button">Login</button>
                 </div>
@@ -38,12 +38,14 @@
 
     const errors = reactive({
         email: '',
-        password: ''
+        password: '',
+        api: ''
     })
 
     function clearErrors() {
         errors.email = ''
         errors.password = ''
+        errors.api = ''
     }
 
     function clearForm() {
@@ -57,10 +59,11 @@
         emit('close')
     }
 
-    function submitForm() {
+    async function submitForm() {
         clearErrors()
         let valid = true
 
+        // Basic client-side validation
         if (!form.email) {
             errors.email = 'Email is required.'
             valid = false
@@ -76,8 +79,58 @@
 
         if (!valid) return
 
-        console.log('Login submitted:', form)
-        emit('login', { email: form.email, password: form.password })
-        close()
+        try {
+            const response = await fetch('http://laravel_app.local/api/customer/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: form.email,
+                    password: form.password
+                })
+            })
+
+            const data = await response.json()
+
+            if (response.status === 422) {
+                if (data.errors) {
+                    errors.email = data.errors.email?.[0] || ''
+                    errors.password = data.errors.password?.[0] || ''
+                } else {
+                    errors.api = data.message || 'Validation failed.'
+                }
+                return
+            }
+
+            if (response.status === 401) {
+                errors.api = data.message || 'Incorrect email or password. Please try again.'
+                return
+            }
+
+            if (!response.ok) {
+                errors.api = data.message || 'Login failed.'
+                return
+            }
+
+            // ✅ Success — save to localStorage
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('customer', JSON.stringify(data.customer))
+
+            // Emit to parent
+            emit('login', {
+                token: data.token,
+                customer: data.customer
+            })
+
+            close()
+
+        } catch (err) {
+            console.error(err)
+            errors.api = 'Something went wrong. Please try again later.'
+        }
     }
 </script>
+
+
