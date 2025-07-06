@@ -1,29 +1,38 @@
+/* Fixed Top Navigation Bar */
 .main-nav {
-    width: 100%;
-    background-color: #fff; /* white background */
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between; /* split left and right groups */
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* subtle shadow */
-    position: sticky;
+    position: fixed; /* Fix to viewport top */
     top: 0;
-    z-index: 10;
-    gap: 20px; /* gap between groups */
+    left: 0;
+    right: 0;
+    height: 60px; /* Fixed height for navbar */
+    background-color: #fff;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    gap: 20px;
+    white-space: nowrap;
 }
 
+/* Group left and right items */
 .nav-left,
 .nav-right {
     display: flex;
-    gap: 20px; /* space between links in each group */
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
 }
 
+/* Nav links styling */
 .main-nav a {
     color: #333;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .main-nav a:hover {
@@ -33,4 +42,24 @@
 .main-nav a.router-link-exact-active {
     font-weight: bold;
     border-bottom: 2px solid #dc3545;
+}
+
+/* Add padding to the page content so it is not hidden under fixed navbar */
+body, #app, .page-content {
+    padding-top: 60px; /* equal to navbar height */
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .main-nav {
+        padding: 0 1rem;
+        height: 50px;
+    }
+    body, #app, .page-content {
+        padding-top: 50px;
+    }
+    .nav-left,
+    .nav-right {
+        gap: 12px;
+    }
 }

@@ -1,0 +1,23 @@
+.confirmation-success {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertical center */
+    align-items: center;     /* horizontal center */
+    height: 80vh;            /* almost full viewport height */
+    text-align: center;
+    padding: 2rem;
+    color: #2d3748;          /* dark gray text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.confirmation-success h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #38a169; /* nice green */
+}
+
+.confirmation-success p {
+    font-size: 1.25rem;
+    color: #4a5568; /* medium gray */
+    max-width: 400px;
+}

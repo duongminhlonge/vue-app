@@ -8,6 +8,10 @@ const routes = [
     component: MainLayout,
     children: [
       { path: '', component: HomeView },
+      {
+        path: '/email-confirmation/success',
+        component: () => import('@/components/EmailConfirmationSuccess.vue'),
+      },
     ]
   }
 ]
