@@ -132,17 +132,23 @@
             valid = false
         }
 
+        // Password validation pattern (at least 8 characters, one uppercase, one lowercase, one number, one special character)
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
         if (!form.password) {
-            errors.password = 'Password is required.'
-            valid = false
+            errors.password = 'Password is required.';
+            valid = false;
+        } else if (!passwordPattern.test(form.password)) {
+            errors.password = 'Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.';
+            valid = false;
         }
 
         if (!form.confirm_password) {
-            errors.confirm_password = 'Please confirm your password.'
-            valid = false
+            errors.confirm_password = 'Please confirm your password.';
+            valid = false;
         } else if (form.password !== form.confirm_password) {
-            errors.confirm_password = 'Passwords do not match.'
-            valid = false
+            errors.confirm_password = 'Passwords do not match.';
+            valid = false;
         }
 
         if (!valid) return
