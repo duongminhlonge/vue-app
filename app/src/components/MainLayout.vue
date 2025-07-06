@@ -12,7 +12,18 @@
                     <a href="#" @click.prevent="showLoginModal = true">Login</a>
                 </template>
                 <template v-else>
-                    <a href="#" @click.prevent="logout">Logout</a>
+                    <div class="avatar-dropdown-wrapper" @click="toggleAvatarDropdown">
+                        <div class="avatar-circle">
+                            {{ getInitials }}
+                        </div>
+                        <div class="dropdown-menu" v-if="showAvatarDropdown">
+                            <a href="#" @click.prevent="goToProfile">My Profile</a>
+                            <a href="#" @click.prevent="goToVocabularyList">Vocabulary List</a>
+                            <a href="#" @click.prevent="goToSettings">Settings</a>
+                            <hr />
+                            <a href="#" @click.prevent="logout">Logout</a>
+                        </div>
+                    </div>
                 </template>
             </div>
         </nav>
@@ -60,6 +71,7 @@
     const showAboutModal = ref(false)
     const showEmailNoticeModal = ref(false)
     const emailJustRegistered = ref('')
+    const showAvatarDropdown = ref(false)
 
     const token = ref(localStorage.getItem('token'))
     const customer = ref(localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')) : null)
@@ -115,6 +127,32 @@
             logout()
         }
     }
+
+    function toggleAvatarDropdown() {
+        showAvatarDropdown.value = !showAvatarDropdown.value
+    }
+
+    function goToProfile() {
+        // Navigate to profile page (customize as needed)
+        console.log('Go to Profile')
+    }
+
+    function goToVocabularyList() {
+        // Navigate to profile page (customize as needed)
+        console.log('Go to Vocabulary List')
+    }
+
+    function goToSettings() {
+        // Navigate to settings page (customize as needed)
+        console.log('Go to Settings')
+    }
+
+    const getInitials = computed(() => {
+        if (!customer.value) return ''
+        const names = customer.value.first_name?.split(' ') || []
+        const initials = names.map(n => n.charAt(0).toUpperCase()).join('')
+        return initials.slice(0, 2)
+    })
 
     onMounted(() => {
         verifyToken()

@@ -44,6 +44,57 @@
     border-bottom: 2px solid #dc3545;
 }
 
+.avatar-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.avatar-dropdown-wrapper .avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.avatar-dropdown-wrapper .dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.avatar-dropdown-wrapper .dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #333;
+    text-decoration: none;
+}
+
+.avatar-dropdown-wrapper .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+.avatar-dropdown-wrapper .dropdown-menu hr {
+    margin: 4px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+
 /* Add padding to the page content so it is not hidden under fixed navbar */
 body, #app, .page-content {
     padding-top: 60px; /* equal to navbar height */
