@@ -110,13 +110,19 @@
         let valid = true
 
         if (!form.first_name) {
-            errors.first_name = 'First name is required.'
-            valid = false
+            errors.first_name = 'First name is required.';
+            valid = false;
+        } else if (form.first_name.length > 25) {
+            errors.first_name = 'First name must be 25 characters or less.';
+            valid = false;
         }
 
         if (!form.last_name) {
-            errors.last_name = 'Last name is required.'
-            valid = false
+            errors.last_name = 'Last name is required.';
+            valid = false;
+        } else if (form.last_name.length > 25) {
+            errors.last_name = 'Last name must be 25 characters or less.';
+            valid = false;
         }
 
         if (!form.gender) {
