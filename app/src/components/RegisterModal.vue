@@ -42,7 +42,9 @@
                 <span class="error-text" v-if="errors.api">{{ errors.api }}</span>
 
                 <div class="modal-actions">
-                    <button type="submit" class="submit-button">Submit</button>
+                    <button type="submit" class="submit-button" :disabled="loading">
+                        {{ loading ? 'Registering...' : 'Submit' }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -76,6 +78,8 @@
         confirm_password: '',
         api: ''
     })
+
+    const loading = ref(false)
 
     function clearErrors() {
         for (const key in errors) {
@@ -143,13 +147,11 @@
 
         if (!valid) return
 
+        loading.value = true
+
         try {
             const response = await fetch('http://laravel_app.local/api/customer/register', {
                 method: 'POST',
-                headers: {
-                    // Use multipart/form-data because original curl uses form-data
-                    // For multipart/form-data in fetch, you must use FormData instead of JSON.stringify
-                },
                 body: (() => {
                     const formData = new FormData()
                     formData.append('first_name', form.first_name)
@@ -164,7 +166,6 @@
             const data = await response.json()
 
             if (response.status === 422) {
-                // Laravel validation errors
                 if (data.errors) {
                     errors.first_name = data.errors.first_name?.[0] || ''
                     errors.last_name = data.errors.last_name?.[0] || ''
@@ -174,15 +175,16 @@
                 } else {
                     errors.api = data.message || 'Validation failed.'
                 }
+                loading.value = false
                 return
             }
 
             if (!response.ok) {
                 errors.api = data.message || 'Registration failed.'
+                loading.value = false
                 return
             }
 
-            // Success: emit register event with token and customer
             emit('register', {
                 email: form.email,
                 token: data.token,
@@ -193,6 +195,15 @@
         } catch (err) {
             console.error(err)
             errors.api = 'Something went wrong. Please try again later.'
+        } finally {
+            loading.value = false
         }
     }
 </script>
+
+<style scoped>
+    .submit-button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>

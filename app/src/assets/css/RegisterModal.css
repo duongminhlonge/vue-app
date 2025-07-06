@@ -88,3 +88,8 @@
 .register-modal .submit-button:hover {
     background-color: #c82333;
 }
+
+.register-modal .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

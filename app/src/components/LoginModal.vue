@@ -15,7 +15,9 @@
                 </label>
                 <span class="error-text" v-if="errors.api">{{ errors.api }}</span>
                 <div class="modal-actions">
-                    <button type="submit" class="submit-button">Login</button>
+                    <button type="submit" class="submit-button" :disabled="loading">
+                        {{ loading ? 'Logging in...' : 'Login' }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -23,7 +25,7 @@
 </template>
 
 <script setup>
-    import { defineProps, defineEmits, reactive } from 'vue'
+    import { defineProps, defineEmits, reactive, ref } from 'vue'
     import '@/assets/css/LoginModal.css'
 
     const props = defineProps({
@@ -41,6 +43,8 @@
         password: '',
         api: ''
     })
+
+    const loading = ref(false)
 
     function clearErrors() {
         errors.email = ''
@@ -79,6 +83,8 @@
 
         if (!valid) return
 
+        loading.value = true
+
         try {
             const response = await fetch('http://laravel_app.local/api/customer/login', {
                 method: 'POST',
@@ -101,16 +107,19 @@
                 } else {
                     errors.api = data.message || 'Validation failed.'
                 }
+                loading.value = false
                 return
             }
 
             if (response.status === 401) {
                 errors.api = data.message || 'Incorrect email or password. Please try again.'
+                loading.value = false
                 return
             }
 
             if (!response.ok) {
                 errors.api = data.message || 'Login failed.'
+                loading.value = false
                 return
             }
 
@@ -129,8 +138,8 @@
         } catch (err) {
             console.error(err)
             errors.api = 'Something went wrong. Please try again later.'
+        } finally {
+            loading.value = false
         }
     }
 </script>
-
-

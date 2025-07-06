@@ -87,3 +87,8 @@
 .login-modal .submit-button:hover {
     background-color: #c82333;
 }
+
+.login-modal .submit-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
