@@ -146,7 +146,6 @@
     }
 
     function goToProfile() {
-        // Navigate to profile page (customize as needed)
         router.push({ name: 'my-profile' })
     }
 
@@ -156,8 +155,7 @@
     }
 
     function goToSettings() {
-        // Navigate to settings page (customize as needed)
-        console.log('Go to Settings')
+        router.push({ name: 'settings' })
     }
 
     const getInitials = computed(() => {
