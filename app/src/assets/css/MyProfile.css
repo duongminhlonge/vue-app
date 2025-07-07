@@ -1,6 +1,31 @@
-.profile-container {
-  max-width: 600px;
+/* Container for two-column layout */
+.profile-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
   margin: 40px auto;
+  padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .profile-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .profile-layout .profile-left,
+  .profile-layout .profile-right {
+    width: 50%;
+  }
+
+  .profile-layout .profile-left {
+    margin-right: 2%;
+  }
+}
+
+.profile-layout .profile-left,
+.profile-layout .profile-right {
   background: #fff;
   padding: 32px;
   border-radius: 10px;
@@ -8,7 +33,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.profile-container .profile-title {
+/* Shared styles */
+.profile-layout .profile-title,
+.profile-layout .section-title {
   font-size: 28px;
   font-weight: bold;
   text-align: center;
@@ -16,14 +43,14 @@
   color: #333;
 }
 
-.profile-container .profile-avatar-section {
+.profile-layout .profile-avatar-section {
   display: flex;
   align-items: center;
   margin-bottom: 24px;
   gap: 16px;
 }
 
-.profile-container .profile-avatar {
+.profile-layout .profile-avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -31,23 +58,23 @@
   border: 2px solid #ccc;
 }
 
-.profile-container .avatar-input {
+.profile-layout .avatar-input {
   font-size: 14px;
 }
 
-.profile-container .profile-form .form-group {
+.profile-layout .profile-form .form-group {
   margin-bottom: 20px;
 }
 
-.profile-container .profile-form label {
+.profile-layout .profile-form label {
   display: block;
   margin-bottom: 6px;
   font-weight: 600;
   color: #555;
 }
 
-.profile-container .profile-form input,
-.profile-container .profile-form select {
+.profile-layout .profile-form input,
+.profile-layout .profile-form select {
   width: 100%;
   padding: 10px 14px;
   border-radius: 6px;
@@ -56,22 +83,22 @@
   transition: border-color 0.3s;
 }
 
-.profile-container .profile-form input:focus,
-.profile-container .profile-form select:focus {
+.profile-layout .profile-form input:focus,
+.profile-layout .profile-form select:focus {
   border-color: #007bff;
   outline: none;
 }
 
-.profile-container .form-row {
+.profile-layout .form-row {
   display: flex;
   gap: 16px;
 }
 
-.profile-container .half-width {
+.profile-layout .half-width {
   flex: 1;
 }
 
-.profile-container .submit-button {
+.profile-layout .submit-button {
   width: 100%;
   background-color: #dc3545;
   color: white;
@@ -84,17 +111,17 @@
   transition: background-color 0.3s;
 }
 
-.profile-container .submit-button:hover {
-  background-color: #dc3545;
+.profile-layout .submit-button:hover {
+  background-color: #c82333;
 }
 
-.profile-container .readonly-input {
+.profile-layout .readonly-input {
   background-color: #f5f5f5;
   cursor: not-allowed;
   color: #888;
 }
 
-.profile-container .success-message {
+.profile-layout .success-message {
   background-color: #e6ffed;
   color: #256029;
   border: 1px solid #b6f2c1;
@@ -102,4 +129,10 @@
   border-radius: 4px;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+.profile-layout .field-error {
+  color: #d93025;
+  font-size: 13px;
+  margin-top: 4px;
 }
