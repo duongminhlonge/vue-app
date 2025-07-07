@@ -9,19 +9,25 @@
       </div>
 
       <div class="profile-avatar-section">
-        <img
-          :src="customer.avatar ? customer.avatar : defaultAvatar"
-          alt="Profile"
-          class="profile-avatar"
-        />
-        <input type="file" @change="handleAvatarChange" class="avatar-input" />
+        <div class="avatar-circle">
+          <img
+            v-if="customer.avatar"
+            :src="customer.avatar ? customer.avatar : defaultAvatar"
+            alt="Profile"
+            class="profile-avatar"
+          />
+          <span v-else>
+            {{ getInitials }}
+          </span>
+        </div>
+        <input type="file" @change="handleAvatarChange" class="avatar-input"/>
       </div>
 
       <form @submit.prevent="updateProfile" class="profile-form">
         <div class="form-row">
           <div class="form-group half-width">
             <label for="firstName">First Name</label>
-            <input id="firstName" v-model="customer.firstName" />
+            <input id="firstName" v-model="customer.firstName"/>
             <div v-if="updateProfileErrors.firstName" class="field-error">
               {{ updateProfileErrors.firstName }}
             </div>
@@ -29,7 +35,7 @@
 
           <div class="form-group half-width">
             <label for="lastName">Last Name</label>
-            <input id="lastName" v-model="customer.lastName" />
+            <input id="lastName" v-model="customer.lastName"/>
             <div v-if="updateProfileErrors.lastName" class="field-error">
               {{ updateProfileErrors.lastName }}
             </div>
@@ -74,7 +80,7 @@
       <form @submit.prevent="changePassword" class="profile-form">
         <div class="form-group">
           <label for="currentPassword">Current Password</label>
-          <input id="currentPassword" v-model="passwordForm.current" type="password" />
+          <input id="currentPassword" v-model="passwordForm.current" type="password"/>
           <div v-if="passwordErrors.current" class="field-error">
             {{ passwordErrors.current }}
           </div>
@@ -82,7 +88,7 @@
 
         <div class="form-group">
           <label for="newPassword">New Password</label>
-          <input id="newPassword" v-model="passwordForm.new" type="password" />
+          <input id="newPassword" v-model="passwordForm.new" type="password"/>
           <div v-if="passwordErrors.new" class="field-error">
             {{ passwordErrors.new }}
           </div>
@@ -90,7 +96,7 @@
 
         <div class="form-group">
           <label for="confirmPassword">Confirm New Password</label>
-          <input id="confirmPassword" v-model="passwordForm.confirm" type="password" />
+          <input id="confirmPassword" v-model="passwordForm.confirm" type="password"/>
           <div v-if="passwordErrors.confirm" class="field-error">
             {{ passwordErrors.confirm }}
           </div>
@@ -105,8 +111,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import {ref, onMounted, computed} from 'vue'
+import {useRouter} from 'vue-router'
 import axios from 'axios'
 import '@/assets/css/MyProfile.css'
 
@@ -156,7 +162,7 @@ const fetchCustomerData = async () => {
   }
 
   try {
-    const { data } = await axios.get('http://laravel_app.local/api/customer/me', {
+    const {data} = await axios.get('http://laravel_app.local/api/customer/me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -245,6 +251,13 @@ async function updateProfile() {
     console.error('Profile update error:', error)
   }
 }
+
+const getInitials = computed(() => {
+  if (!customer.value) return ''
+  const names = customer.value.firstName?.split(' ') || []
+  const initials = names.map(n => n.charAt(0).toUpperCase()).join('')
+  return initials.slice(0, 2)
+})
 
 async function changePassword() {
   const token = localStorage.getItem('token')

@@ -14,7 +14,15 @@
                 <template v-else>
                     <div class="avatar-dropdown-wrapper" @click="toggleAvatarDropdown">
                         <div class="avatar-circle">
-                            {{ getInitials }}
+                            <img
+                              v-if="avatarUrl"
+                              :src="avatarUrl"
+                              alt="Avatar"
+                              class="avatar-image"
+                            />
+                            <span v-else>
+                              {{ getInitials }}
+                            </span>
                         </div>
                         <div class="dropdown-menu" v-if="showAvatarDropdown">
                             <a href="#" @click.prevent="goToProfile">My Profile</a>
@@ -79,6 +87,7 @@
     const customer = ref(localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')) : null)
 
     const isLoggedIn = computed(() => !!token.value && !!customer.value)
+    const baseUrl = import.meta.env.VITE_API_BASE_URL
 
     function handleLogin({ token: loginToken, customer: loginCustomer }) {
         token.value = loginToken
@@ -156,6 +165,13 @@
         const names = customer.value.first_name?.split(' ') || []
         const initials = names.map(n => n.charAt(0).toUpperCase()).join('')
         return initials.slice(0, 2)
+    })
+
+    const avatarUrl = computed(() => {
+      if (!customer.value?.avatar) return null
+
+      // Add timestamp to bypass cache
+      return `${baseUrl}/storage/${customer.value.avatar}?t=${Date.now()}`
     })
 
     onMounted(() => {
