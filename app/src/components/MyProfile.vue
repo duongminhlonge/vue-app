@@ -10,7 +10,7 @@
 
       <div class="profile-avatar-section">
         <img
-          :src="customer.avatar ? `${baseUrl}/storage/${customer.avatar}?t=${Date.now()}` : defaultAvatar"
+          :src="customer.avatar ? customer.avatar : defaultAvatar"
           alt="Profile"
           class="profile-avatar"
         />
@@ -168,7 +168,9 @@ const fetchCustomerData = async () => {
     customer.value.lastName = c.last_name || ''
     customer.value.email = c.email || ''
     customer.value.gender = c.gender || ''
-    customer.value.avatar = c.avatar || null
+    customer.value.avatar = c.avatar
+      ? `${baseUrl}/storage/${c.avatar}?t=${Date.now()}`
+      : null
 
   } catch (error) {
     console.error('Error fetching customer data:', error)
