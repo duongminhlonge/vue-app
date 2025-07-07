@@ -106,8 +106,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import axios from 'axios'
 import '@/assets/css/MyProfile.css'
+
+const router = useRouter()
 
 const defaultAvatar = 'https://via.placeholder.com/150'
 
@@ -144,8 +147,10 @@ const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/
 
 const fetchCustomerData = async () => {
   const token = localStorage.getItem('token')
-  if (!token) {
-    console.error('No token found.')
+  const customerData = localStorage.getItem('customer') // optional: if you store full user data in localStorage
+
+  if (!token || !customerData) {
+    router.push('/')
     return
   }
 
@@ -166,6 +171,7 @@ const fetchCustomerData = async () => {
 
   } catch (error) {
     console.error('Error fetching customer data:', error)
+    router.push('/') // Also redirect if request fails (e.g., invalid token)
   }
 }
 
@@ -182,9 +188,11 @@ function handleAvatarChange(event) {
 
 async function updateProfile() {
   const token = localStorage.getItem('token')
-  if (!token) return console.error('No token found.')
+  if (!token) {
+    router.push('/')
+    return
+  }
 
-  // Clear previous errors
   updateProfileErrors.value = {
     firstName: '',
     lastName: '',
@@ -237,7 +245,10 @@ async function updateProfile() {
 
 async function changePassword() {
   const token = localStorage.getItem('token')
-  if (!token) return console.error('No token found.')
+  if (!token) {
+    router.push('/')
+    return
+  }
 
   passwordErrors.value = {
     current: '',

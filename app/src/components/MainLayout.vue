@@ -97,6 +97,8 @@
         localStorage.removeItem('customer')
         token.value = null
         customer.value = null
+
+        router.push('/')
     }
 
     function onRegisterSuccess({ email }) {
