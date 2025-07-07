@@ -10,7 +10,7 @@
 
       <div class="profile-avatar-section">
         <img
-          :src="customer.avatar || defaultAvatar"
+          :src="customer.avatar ? `${baseUrl}/storage/${customer.avatar}?t=${Date.now()}` : defaultAvatar"
           alt="Profile"
           class="profile-avatar"
         />
@@ -113,6 +113,7 @@ import '@/assets/css/MyProfile.css'
 const router = useRouter()
 
 const defaultAvatar = 'https://via.placeholder.com/150'
+const baseUrl = import.meta.env.VITE_API_BASE_URL // Update as needed
 
 const profileSuccessMessage = ref('')
 const passwordSuccessMessage = ref('')
