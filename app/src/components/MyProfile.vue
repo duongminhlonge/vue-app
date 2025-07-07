@@ -2,6 +2,10 @@
   <div class="profile-container">
     <h2 class="profile-title">My Profile</h2>
 
+    <div v-if="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
     <div class="profile-avatar-section">
       <img
         :src="customer.avatar || defaultAvatar"
@@ -58,6 +62,7 @@ import axios from 'axios'
 import '@/assets/css/MyProfile.css'
 
 const defaultAvatar = 'https://via.placeholder.com/150'
+const successMessage = ref('')
 
 const customer = ref({
   firstName: '',
@@ -70,7 +75,7 @@ const customer = ref({
 const fetchCustomerData = async () => {
   const token = localStorage.getItem('token')
   if (!token) {
-    alert('No token found. Please log in.')
+    console.error('No token found. Please log in.')
     return
   }
 
@@ -91,7 +96,6 @@ const fetchCustomerData = async () => {
 
   } catch (error) {
     console.error('Error fetching customer data:', error)
-    alert('Failed to load profile data.')
   }
 }
 
@@ -106,9 +110,45 @@ function handleAvatarChange(event) {
   }
 }
 
-function updateProfile() {
-  console.log('Saving customer info:', customer.value)
-  alert('Profile updated!')
+async function updateProfile() {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    console.error('No token found. Please log in.')
+    return
+  }
+
+  try {
+    const payload = {
+      first_name: customer.value.firstName,
+      last_name: customer.value.lastName,
+      gender: customer.value.gender,
+      avatar: customer.value.avatar,
+    }
+
+    const response = await axios.put('http://laravel_app.local/api/customer/update', payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    successMessage.value = 'Profile updated successfully!'
+    setTimeout(() => {
+      successMessage.value = ''
+    }, 3000)
+
+    console.log('Updated customer:', response.data.customer)
+  } catch (error) {
+    console.error('Error updating customer:', error)
+    if (error.response?.data?.errors) {
+      successMessage.value = 'Validation failed. Check inputs.'
+    } else {
+      successMessage.value = 'Failed to update profile. Please try again.'
+    }
+    setTimeout(() => {
+      successMessage.value = ''
+    }, 4000)
+  }
 }
 
 onMounted(fetchCustomerData)
