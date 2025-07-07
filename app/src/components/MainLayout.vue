@@ -59,6 +59,7 @@
 
 <script setup>
     import { ref, computed, onMounted } from 'vue'
+    import { useRouter } from 'vue-router'
     import '@/assets/css/MainLayout.css'
 
     import RegisterModal from './RegisterModal.vue'
@@ -72,6 +73,7 @@
     const showEmailNoticeModal = ref(false)
     const emailJustRegistered = ref('')
     const showAvatarDropdown = ref(false)
+    const router = useRouter()
 
     const token = ref(localStorage.getItem('token'))
     const customer = ref(localStorage.getItem('customer') ? JSON.parse(localStorage.getItem('customer')) : null)
@@ -134,7 +136,7 @@
 
     function goToProfile() {
         // Navigate to profile page (customize as needed)
-        console.log('Go to Profile')
+        router.push({ name: 'my-profile' })
     }
 
     function goToVocabularyList() {

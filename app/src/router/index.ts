@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import MainLayout from '../components/MainLayout.vue'
 import HomeView from '../views/HomeView.vue'
+import MyProfileView from '../views/MyProfileView.vue'
 
 const routes = [
   {
@@ -11,6 +12,11 @@ const routes = [
       {
         path: '/email-confirmation/success',
         component: () => import('@/components/EmailConfirmationSuccess.vue'),
+      },
+      {
+        path: '/my-profile',
+        name: 'my-profile',
+        component: MyProfileView
       },
     ]
   }
