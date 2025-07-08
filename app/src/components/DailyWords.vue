@@ -105,31 +105,3 @@
     fetchWords()
   })
 </script>
-
-<style scoped>
-  .call-to-action-card {
-    background-color: rgba(40, 167, 69, 0.08);
-    text-align: center;
-    border: 2px dashed #28a745;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-radius: 8px;
-  }
-
-  .call-to-action-card button {
-    margin-top: 1rem;
-    background-color: #28a745;
-    color: white;
-    padding: 0.5rem 1.2rem;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .call-to-action-card button:hover {
-    background-color: #28a745;
-  }
-</style>
