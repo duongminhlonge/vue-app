@@ -1,0 +1,56 @@
+.settings-page {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.settings-page h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.settings-page .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.settings-page select {
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.settings-page button {
+  width: 100%;
+  background-color: #dc3545;
+  color: white;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.settings-page button:hover {
+  background-color: #c82333;
+}
+
+.settings-page .success-message {
+  background-color: #e6ffed;
+  color: #256029;
+  border: 1px solid #b6f2c1;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
