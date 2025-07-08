@@ -1,6 +1,6 @@
 <template>
   <div class="daily-words">
-    <h1>📚 Learn 5 English Words Today</h1>
+    <h1>📚 Learn {{ words.length }} English Word{{ words.length === 1 ? '' : 's' }} Today</h1>
 
     <div class="word-grid">
       <div
@@ -39,10 +39,21 @@ import { ref, onMounted } from 'vue'
 import '@/assets/css/DailyWords.css'
 
 const words = ref([])
+const token = ref(localStorage.getItem('token'))
 
-onMounted(async () => {
+async function fetchWords() {
   try {
-    const res = await fetch('http://laravel_app.local/api/words/get-daily-words') // Replace with your actual API endpoint
+    const isLoggedIn = !!token.value
+
+    const apiUrl = isLoggedIn
+      ? 'http://laravel_app.local/api/customer/get-daily-words'
+      : 'http://laravel_app.local/api/words/get-daily-words'
+
+    const headers = isLoggedIn
+      ? { Authorization: `Bearer ${token.value}` }
+      : {}
+
+    const res = await fetch(apiUrl, { headers })
     const json = await res.json()
 
     if (json.success) {
@@ -54,10 +65,16 @@ onMounted(async () => {
         definition: w.meaning,
         example: w.example
       }))
+    } else {
+      console.warn('Failed to fetch words:', json.message || json)
     }
   } catch (error) {
     console.error('Error fetching daily words:', error)
   }
+}
+
+onMounted(() => {
+  fetchWords()
 })
 
 function playAudio(text, lang) {
@@ -75,3 +92,5 @@ function capitalize(text) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 </script>
+
+

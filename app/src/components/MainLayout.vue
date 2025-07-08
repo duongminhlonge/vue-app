@@ -97,7 +97,7 @@
 
         showLoginModal.value = false
         showRegisterModal.value = false
-
+        window.location.reload()
         console.log('User logged in:', loginCustomer)
     }
 
@@ -108,6 +108,7 @@
         customer.value = null
 
         router.push('/')
+        window.location.reload()
     }
 
     function onRegisterSuccess({ email }) {
