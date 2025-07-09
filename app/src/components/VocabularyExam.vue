@@ -46,9 +46,9 @@
       </h2>
 
       <div v-else>
-        <h2 class="fail">❌ Not quite there yet!</h2>
+        <h2 class="fail">❌ Almost perfect, keep trying!</h2>
         <p>You got <strong>{{ correctCount }}</strong> correct and <strong>{{ wrongCount }}</strong> wrong.</p>
-        <p>Review your answers and give it another try!</p>
+        <p>Give it another try!</p>
         <button class="try-again-button" @click="tryAgain">Try Again</button>
       </div>
     </div>
