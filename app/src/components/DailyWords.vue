@@ -32,11 +32,17 @@
         </div>
       </div>
 
-      <!-- Exam CTA card (only for logged-in users) -->
+      <!-- Exam CTA or Completion Message -->
       <div v-if="isLoggedIn" class="word-card call-to-action-card">
-        <h2>📝 Ready to Grow Your Vocabulary?</h2>
-        <p>To save today's words to your personal list, you need to pass a quick vocabulary challenge. Show us what you've learned!</p>
-        <button @click="goToExam">Take the Vocabulary Exam</button>
+        <template v-if="isCompleted">
+          <h2>✅ You've Already Passed Today’s Exam</h2>
+          <p>🎉 Great job! These words are now added to your personal list.</p>
+        </template>
+        <template v-else>
+          <h2>📝 Ready to Grow Your Vocabulary?</h2>
+          <p>To save today's words to your personal list, you need to pass a quick vocabulary challenge. Show us what you've learned!</p>
+          <button @click="goToExam">Take the Vocabulary Exam</button>
+        </template>
       </div>
     </div>
   </div>
@@ -48,6 +54,7 @@
   import '@/assets/css/DailyWords.css'
 
   const words = ref([])
+  const isCompleted = ref(false)
   const token = ref(localStorage.getItem('token') || '')
   const isLoggedIn = computed(() => !!token.value)
   const router = useRouter()
@@ -74,6 +81,9 @@
           definition: w.meaning,
           example: w.example
         }))
+        if (json.is_completed !== undefined) {
+          isCompleted.value = json.is_completed
+        }
       } else {
         console.warn('Failed to fetch words:', json.message || json)
       }
@@ -105,3 +115,4 @@
     fetchWords()
   })
 </script>
+
