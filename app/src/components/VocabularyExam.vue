@@ -13,7 +13,7 @@
         >
           <h3>
             Question {{ index + 1 }}:
-            What is the meaning of <strong>'{{ question.word }}'</strong>?
+            What is the meaning of <strong>'{{ question.word }}'</strong> {{question.type}}?
           </h3>
 
           <div v-for="option in question.options" :key="option">
