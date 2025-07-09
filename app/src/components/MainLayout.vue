@@ -151,8 +151,7 @@
     }
 
     function goToVocabularyList() {
-        // Navigate to profile page (customize as needed)
-        console.log('Go to Vocabulary List')
+        router.push({ name: 'vocabulary-history' })
     }
 
     function goToSettings() {
