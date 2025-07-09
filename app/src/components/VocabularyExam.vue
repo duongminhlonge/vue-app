@@ -95,7 +95,7 @@ export default {
         this.loading = false;
       }
     },
-    submitExam() {
+    async submitExam() {
       this.submitted = true;
 
       const incomplete = this.questions.some((_, index) => {
@@ -114,6 +114,26 @@ export default {
       this.correctCount = correct;
       this.wrongCount = this.questions.length - correct;
       this.passed = correct === this.questions.length;
+
+      // 👇 Call API to mark task as completed if passed
+      if (this.passed) {
+        try {
+          const response = await fetch('http://laravel_app.local/api/words/mark-daily-vocabulary-completed', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+              Accept: 'application/json',
+            },
+          });
+
+          const result = await response.json();
+          if (!result.success) {
+            console.warn('Task not marked as completed:', result.message);
+          }
+        } catch (err) {
+          console.error('Error marking task as completed:', err);
+        }
+      }
     },
     tryAgain() {
       this.userAnswers = {};
