@@ -3,6 +3,7 @@ import MainLayout from '../components/MainLayout.vue'
 import HomeView from '../views/HomeView.vue'
 import MyProfileView from '../views/MyProfileView.vue'
 import SettingsView from '../views/SettingsView.vue'
+import VocabularyExamView from '../views/VocabularyExamView.vue'
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
                 name: 'settings',
                 component: SettingsView
             },
+          {
+            path: '/vocabulary-exam',
+            name: 'vocabulary-exam',
+            component: VocabularyExamView
+          },
         ]
     }
 ]
