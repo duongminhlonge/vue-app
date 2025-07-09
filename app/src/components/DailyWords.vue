@@ -55,7 +55,7 @@
   async function fetchWords() {
     try {
       const apiUrl = isLoggedIn.value
-              ? 'http://laravel_app.local/api/customer/get-daily-words'
+              ? 'http://laravel_app.local/api/words/get-customer-daily-words'
               : 'http://laravel_app.local/api/words/get-daily-words'
 
       const headers = isLoggedIn.value
