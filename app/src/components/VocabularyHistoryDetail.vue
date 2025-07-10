@@ -68,10 +68,10 @@ async function fetchTaskWords() {
       words.value = json.data.map(w => ({
         word: w.word,
         type: w.type,
-        pronunciationUS: w.pronunciationUS,
-        pronunciationUK: w.pronunciationUK,
-        definition: w.definition,
-        example: w.example,
+        pronunciationUS: w.phon_n_am,
+        pronunciationUK: w.phon_br,
+        definition: w.meaning,
+        example: w.example
       }))
       date.value = json.date || ''
     } else {
