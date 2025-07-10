@@ -29,7 +29,7 @@
                     <td>
                       {{ formatDate(entry.date) }}
                       <br />
-                      <router-link :to="{ name: 'vocabulary-history-detail', params: { date: entry.date } }" class="view-detail-link">
+                      <router-link :to="{ name: 'vocabulary-history-detail', params: { id: entry.id } }" class="view-detail-link">
                         View Detail →
                       </router-link>
                     </td>
@@ -68,6 +68,7 @@
 
             if (json.success) {
                 history.value = json.data.map(entry => ({
+                    id: entry.id,
                     date: entry.date,
                     words: entry.words.map(w => ({
                         word: w.word,

@@ -38,9 +38,10 @@ const routes = [
                 component: VocabularyHistoryView
             },
             {
-              path: '/vocabulary-history/:date',
+              path: '/vocabulary-history/:id',
               name: 'vocabulary-history-detail',
-              component: VocabularyHistoryDetailView
+              component: VocabularyHistoryDetailView,
+              props: true
             }
         ]
     }

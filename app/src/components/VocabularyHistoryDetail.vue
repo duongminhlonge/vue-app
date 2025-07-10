@@ -1,100 +1,122 @@
 <template>
-  <div class="vocabulary-history-detail">
-    <h2>📘 Vocabulary Detail for {{ formatDate(date) }}</h2>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="!words.length">No words found for this date.</div>
-    <ul v-else>
-      <li v-for="(word, i) in words" :key="i" :class="word.type">
-        <strong>{{ word.word }}</strong>
-        <span class="word-type-tag">{{ word.type }}</span>
-      </li>
-    </ul>
+  <div class="daily-words">
+    <h1>📘 Vocabulary from {{ date || 'Past Task' }}</h1>
+
+    <div class="word-grid">
+      <!-- Word Cards -->
+      <div
+        v-for="(word, index) in words"
+        :key="index"
+        class="word-card"
+        :class="word.type"
+      >
+        <div class="card-header">
+          <h2 class="word">{{ word.word }}</h2>
+          <span class="type-tag">{{ capitalize(word.type) }}</span>
+        </div>
+
+        <div class="pronunciations">
+          <p><strong>US:</strong> / {{ word.pronunciationUS }} /</p>
+          <p><strong>UK:</strong> / {{ word.pronunciationUK }} /</p>
+        </div>
+
+        <ul class="word-details">
+          <li><strong>Definition:</strong> {{ word.definition }}</li>
+          <li><strong>Example:</strong> {{ word.example }}</li>
+        </ul>
+
+        <div class="card-actions">
+          <button @click="playAudio(word.word, 'en-US')">🔊 US</button>
+          <button @click="playAudio(word.word, 'en-GB')">🔊 UK</button>
+          <button @click="searchGoogle(word.word)">🔍 Google</button>
+        </div>
+      </div>
+    </div>
+
+    <router-link to="/vocabulary-history" class="back-link">← Back to History</router-link>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import '@/assets/css/DailyWords.css'
 
 const route = useRoute()
 const router = useRouter()
-const date = route.params.date
+
+const taskId = route.params.id
+const token = ref(localStorage.getItem('token') || '')
 const words = ref([])
-const loading = ref(true)
-const token = localStorage.getItem('token')
+const date = ref('')
 
-function formatDate(dateStr) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' }
-  return new Date(dateStr).toLocaleDateString(undefined, options)
-}
-
-async function fetchDetail() {
+async function fetchTaskWords() {
   try {
-    const res = await fetch(`http://laravel_app.local/api/words/get-vocabulary-by-date/${date}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-      },
-    })
+    const res = await fetch(
+      `http://laravel_app.local/api/words/get-customer-daily-words-by-id?task_id=${taskId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          Accept: 'application/json',
+        },
+      }
+    )
+
     const json = await res.json()
 
     if (json.success) {
-      words.value = json.data.words || []
+      words.value = json.data.map(w => ({
+        word: w.word,
+        type: w.type,
+        pronunciationUS: w.pronunciationUS,
+        pronunciationUK: w.pronunciationUK,
+        definition: w.definition,
+        example: w.example,
+      }))
+      date.value = json.date || ''
     } else {
-      console.warn('Failed to load detail:', json.message || json)
+      console.warn('Failed to fetch task words:', json.message || json)
+      router.push('/vocabulary-history')
     }
   } catch (err) {
-    console.error('Error loading vocabulary detail:', err)
-    router.push('/')
-  } finally {
-    loading.value = false
+    console.error('Error fetching task detail:', err)
+    router.push('/vocabulary-history')
   }
 }
 
+function playAudio(text, lang) {
+  const utterance = new SpeechSynthesisUtterance(text)
+  utterance.lang = lang
+  speechSynthesis.speak(utterance)
+}
+
+function searchGoogle(word) {
+  const query = encodeURIComponent(word)
+  window.open(`https://www.google.com/search?q=${query}`, '_blank')
+}
+
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
 onMounted(() => {
-  if (!token) {
+  if (!token.value) {
     router.push('/')
   } else {
-    fetchDetail()
+    fetchTaskWords()
   }
 })
 </script>
 
 <style scoped>
-.vocabulary-history-detail {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
+.back-link {
+  display: inline-block;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: underline;
 }
-
-.vocabulary-history-detail h2 {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.word-type-tag {
-  margin-left: 8px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.noun .word-type-tag {
-  background-color: #007bff;
-}
-
-.verb .word-type-tag {
-  background-color: #dc3545;
-}
-
-.adjective .word-type-tag {
-  background-color: #ffc107;
-  color: #222;
-}
-
-.adverb .word-type-tag {
-  background-color: #17a2b8;
+.back-link:hover {
+  text-decoration: none;
 }
 </style>
