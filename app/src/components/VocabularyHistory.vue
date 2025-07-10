@@ -97,36 +97,49 @@
 
 <style scoped>
     .vocabulary-history {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
+        max-width: 1100px;
+        margin: 60px auto;
+        padding: 0 24px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
+        background: linear-gradient(to bottom right, #f8fff4, #eefaf1);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
 
     .vocabulary-history h1 {
         text-align: center;
-        font-size: 2.2rem;
-        margin-bottom: 40px;
+        font-size: 2.4rem;
+        margin: 40px 0;
+        color: #2f855a;
         font-weight: 700;
     }
 
+    /* Loading & Empty States */
+    .loading,
+    .no-history {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #666;
+        padding: 40px 0;
+    }
+
+    /* Table Design */
     .history-table {
         width: 100%;
         border-collapse: separate;
-        border-spacing: 0 14px;
+        border-spacing: 0 18px;
         font-size: 1rem;
         color: #444;
-        background: transparent;
     }
 
     .history-table th,
     .history-table td {
-        background-color: #fff;
-        padding: 16px 24px;
+        background-color: #ffffff;
+        padding: 18px 24px;
         text-align: left;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         vertical-align: top;
         transition: background-color 0.3s ease;
     }
@@ -135,13 +148,14 @@
         background-color: #f4f6f8;
         font-weight: 600;
         color: #222;
-        letter-spacing: 0.03em;
+        font-size: 1.05rem;
     }
 
     .history-table tbody tr:hover td {
-        background-color: #f9fbfd;
+        background-color: #f2fbf5;
     }
 
+    /* Word List Styling */
     .history-table td ul {
         padding-left: 20px;
         margin: 0;
@@ -149,74 +163,62 @@
     }
 
     .history-table td li {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         font-size: 1rem;
-        color: #555;
+        color: #333;
+        line-height: 1.6;
     }
 
     .history-table td li strong {
         font-weight: 700;
         color: #222;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
     }
 
-    /* Color tags with slightly deeper saturation and subtle shadow */
+    /* Word type tag style */
     .word-type-tag {
         display: inline-block;
         font-size: 0.75rem;
-        font-weight: bold;
-        text-transform: capitalize;
-        padding: 2px 6px;
-        border-radius: 4px;
-        margin-left: 8px;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 5px;
+        margin-left: 10px;
         color: #fff;
+        text-transform: capitalize;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
-    .noun .word-type-tag {
-        background-color: #007bff;
+    /* Tag Colors */
+    .noun .word-type-tag { background-color: #007bff; }
+    .verb .word-type-tag { background-color: #dc3545; }
+    .adjective .word-type-tag { background-color: #ffc107; color: #212529; }
+    .adverb .word-type-tag { background-color: #17a2b8; }
+    .preposition .word-type-tag { background-color: #6f42c1; }
+    .conjunction .word-type-tag { background-color: #fd7e14; color: #212529; }
+    .interjection .word-type-tag { background-color: #28a745; }
+    .determiner .word-type-tag { background-color: #20c997; }
+    .article .word-type-tag { background-color: #6610f2; }
+    .other .word-type-tag { background-color: #343a40; }
+
+    /* Detail Link */
+    .view-detail-link {
+        display: inline-block;
+        margin-top: 8px;
+        font-size: 0.9rem;
+        color: #28a745;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
     }
 
-    .verb .word-type-tag {
-        background-color: #dc3545;
+    .view-detail-link:hover {
+        color: #1e7e34;
+        text-decoration: underline;
     }
 
-    .adjective .word-type-tag {
-        background-color: #ffc107;
-        color: #222;
-    }
-
-    .adverb .word-type-tag {
-        background-color: #17a2b8;
-    }
-
-    .preposition .word-type-tag {
-        background-color: #6f42c1;
-    }
-
-    .conjunction .word-type-tag {
-        background-color: #fd7e14;
-        color: #222;
-    }
-
-    .interjection .word-type-tag {
-        background-color: #28a745;
-    }
-
-    .determiner .word-type-tag {
-        background-color: #20c997;
-    }
-
-    .article .word-type-tag {
-        background-color: #6610f2;
-    }
-
-    .other .word-type-tag {
-        background-color: #343a40;
-    }
-
-    /* Responsive tweaks */
+    /* Responsive Design */
     @media (max-width: 768px) {
-        history-table th,
+        .history-table th,
         .history-table td {
             padding: 14px 16px;
             font-size: 0.95rem;
@@ -225,16 +227,25 @@
         .history-table td li {
             font-size: 0.95rem;
         }
+
+        .word-type-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+        }
     }
 
     @media (max-width: 480px) {
         .vocabulary-history h1 {
             font-size: 1.6rem;
-            margin-bottom: 24px;
+            margin: 24px 0;
         }
 
         .history-table {
             font-size: 0.9rem;
+        }
+
+        .view-detail-link {
+            font-size: 0.85rem;
         }
     }
 

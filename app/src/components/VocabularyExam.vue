@@ -10,10 +10,11 @@
           v-for="(question, index) in questions"
           :key="index"
           class="question-block"
+          :class="question.type"
         >
           <h3>
             Question {{ index + 1 }}:
-            What is the meaning of <strong>'{{ question.word }}'</strong> {{question.type}}?
+            What is the meaning of <strong>'{{ question.word }}'</strong> ({{question.type}})?
           </h3>
 
           <div v-for="option in question.options" :key="option">
