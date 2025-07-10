@@ -26,7 +26,13 @@
                             </li>
                         </ul>
                     </td>
-                    <td>{{ formatDate(entry.date) }}</td>
+                    <td>
+                      {{ formatDate(entry.date) }}
+                      <br />
+                      <router-link :to="{ name: 'vocabulary-history-detail', params: { date: entry.date } }" class="view-detail-link">
+                        View Detail →
+                      </router-link>
+                    </td>
                 </tr>
 
                 </tbody>

@@ -5,6 +5,7 @@ import MyProfileView from '../views/MyProfileView.vue'
 import SettingsView from '../views/SettingsView.vue'
 import VocabularyExamView from '../views/VocabularyExamView.vue'
 import VocabularyHistoryView from '../views/VocabularyHistoryView.vue'
+import VocabularyHistoryDetailView from '../views/VocabularyHistoryDetailView.vue'
 
 const routes = [
     {
@@ -36,6 +37,11 @@ const routes = [
                 name: 'vocabulary-history',
                 component: VocabularyHistoryView
             },
+            {
+              path: '/vocabulary-history/:date',
+              name: 'vocabulary-history-detail',
+              component: VocabularyHistoryDetailView
+            }
         ]
     }
 ]
