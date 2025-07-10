@@ -132,6 +132,10 @@ h1 {
     background-color: rgba(102, 16, 242, 0.1);
 }
 
+.word-card.number {
+  background-color: rgba(0, 184, 148, 0.1);
+}
+
 .word-card.other {
     background-color: rgba(52, 58, 64, 0.08);
 }
@@ -181,6 +185,12 @@ h1 {
 .word-card.article .type-tag,
 .word-card.article button {
     background-color: #6610f2;
+}
+
+.word-card.number .type-tag,
+.word-card.number button {
+  background-color: #00b894; /* Solid teal */
+  color: #fff;
 }
 
 .word-card.other .type-tag,
