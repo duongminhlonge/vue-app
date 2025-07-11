@@ -18,7 +18,7 @@
 }
 
 /* Question block styling */
-.question-block {
+.vocabulary-exam-container .question-block {
   background: #ffffff;
   border-left: 5px solid #28a745;
   border-radius: 12px;
@@ -28,23 +28,23 @@
   transition: transform 0.2s ease;
 }
 
-.question-block:hover {
+.vocabulary-exam-container .question-block:hover {
   transform: translateY(-3px);
 }
 
-.question-block h3 {
+.vocabulary-exam-container .question-block h3 {
   font-size: 1.1rem;
   color: #333;
   margin-bottom: 1rem;
   line-height: 1.4;
 }
 
-strong {
+.vocabulary-exam-container strong {
   color: #2c3e50;
 }
 
 /* Radio input and labels */
-label {
+.vocabulary-exam-container label {
   display: block;
   padding: 0.6rem 1rem;
   margin-bottom: 0.6rem;
@@ -55,17 +55,17 @@ label {
   cursor: pointer;
 }
 
-label:hover {
+.vocabulary-exam-container label:hover {
   background: #e9f5ee;
   border-color: #28a745;
 }
 
-input[type='radio'] {
+.vocabulary-exam-container input[type='radio'] {
   margin-right: 10px;
 }
 
 /* Validation error */
-.validation-error {
+.vocabulary-exam-container .validation-error {
   color: #e53935;
   font-size: 0.9rem;
   margin-top: 0.4rem;
@@ -73,7 +73,7 @@ input[type='radio'] {
 }
 
 /* Submit button */
-.submit-button {
+.vocabulary-exam-container .submit-button {
   display: block;
   margin: 2rem auto 0;
   padding: 14px 30px;
@@ -88,13 +88,13 @@ input[type='radio'] {
   transition: background 0.3s ease, transform 0.2s;
 }
 
-.submit-button:hover {
+.vocabulary-exam-container .submit-button:hover {
   background: #218838;
   transform: scale(1.03);
 }
 
 /* Result screen */
-.result-screen {
+.vocabulary-exam-container .result-screen {
   text-align: center;
   padding: 3rem 2rem;
   background-color: #ffffff;
@@ -102,20 +102,20 @@ input[type='radio'] {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.pass {
+.vocabulary-exam-container .pass {
   color: #38a169;
   font-size: 2rem;
   font-weight: bold;
 }
 
-.pass .subtitle {
+.vocabulary-exam-container .pass .subtitle {
   display: block;
   font-size: 1.25rem;
   color: #4a5568;
   margin-top: 10px;
 }
 
-.fail {
+.vocabulary-exam-container .fail {
   color: #e53935;
   font-size: 1.9rem;
   font-weight: bold;
@@ -123,7 +123,7 @@ input[type='radio'] {
 }
 
 /* Try again button */
-.try-again-button {
+.vocabulary-exam-container .try-again-button {
   margin-top: 1.8rem;
   padding: 12px 26px;
   background-color: #ffa726;
@@ -136,7 +136,7 @@ input[type='radio'] {
   transition: background 0.3s ease;
 }
 
-.try-again-button:hover {
+.vocabulary-exam-container .try-again-button:hover {
   background-color: #fb8c00;
 }
 
@@ -146,12 +146,12 @@ input[type='radio'] {
     padding: 1.5rem;
   }
 
-  .submit-button,
-  .try-again-button {
+  .vocabulary-exam-container .submit-button,
+  .vocabulary-exam-container .try-again-button {
     width: 100%;
   }
 
-  .question-block {
+  .vocabulary-exam-container .question-block {
     padding: 1.2rem;
   }
 }

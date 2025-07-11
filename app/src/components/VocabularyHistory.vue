@@ -102,7 +102,6 @@
         padding: 0 24px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         color: #333;
-        background: linear-gradient(to bottom right, #f8fff4, #eefaf1);
         border-radius: 12px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
     }
@@ -111,7 +110,6 @@
         text-align: center;
         font-size: 2.4rem;
         margin: 40px 0;
-        color: #2f855a;
         font-weight: 700;
     }
 
